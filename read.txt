@@ -1,0 +1,39 @@
+# Cómo iniciar el proyecto Django con Docker
+
+1. Levantar los contenedores (construir la imagen si es la primera vez):
+
+   docker-compose up --build
+
+   Esto arrancará:
+   - Django backend en http://localhost:8000
+   - PostgreSQL en el puerto 5432
+   - PgAdmin en http://localhost:5055 (usuario: admin@admin.com, password: admin)
+
+2. Crear las tablas de la base de datos (migraciones):
+
+   docker-compose exec tienda-backend python manage.py migrate
+
+3. Crear un superusuario para administrar Django (opcional, recomendado):
+
+   docker-compose exec tienda-backend python manage.py createsuperuser
+
+4. Para detener los contenedores:
+
+   docker-compose down
+
+# Datos de conexión a la base de datos
+
+- Host: db
+- Puerto: 5432
+- Usuario: root
+- Contraseña: password
+- Base de datos: tienda_db
+
+# Nota
+
+- El comando para correr el servidor Django ya está configurado en docker-compose y se ejecuta automáticamente al levantar los contenedores.
+- Si quieres ejecutar comandos Django manualmente, puedes usar:
+
+   docker-compose exec tienda-backend bash
+
+y luego ejecutar lo que necesites dentro del contenedor.
