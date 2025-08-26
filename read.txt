@@ -8,6 +8,7 @@
    - Django backend en http://localhost:8000
    - PostgreSQL en el puerto 5432
    - PgAdmin en http://localhost:5055 (usuario: admin@admin.com, password: admin)
+   - Super usuairo admin admin@admin.com
 
 2. Crear las tablas de la base de datos (migraciones):
 
@@ -37,3 +38,9 @@
    docker-compose exec tienda-backend bash
 
 y luego ejecutar lo que necesites dentro del contenedor.
+
+migraciones 
+
+   docker-compose exec tienda-backend python manage.py makemigrations
+   docker-compose exec tienda-backend python manage.py migrate
+

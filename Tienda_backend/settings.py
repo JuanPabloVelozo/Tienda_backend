@@ -10,19 +10,17 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
+from pathlib import Path
 from decouple import config
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = config('DEBUG', cast=bool)
 SECRET_KEY = config('SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c=^hh9xt74-c)aev_spw7y#e17q7fu(h6@eqo=mo_$zl@x^o6e'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -38,12 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',      # Django REST Framework
+    'corsheaders',         # Para controlar CORS
     'Tienda_app',          # aplicación principal
 ]
 # Modelo de usuario personalizado
 AUTH_USER_MODEL = 'Tienda_app.User'
 
 MIDDLEWARE = [
+     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -88,7 +88,14 @@ DATABASES = {
     }
 }
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # por defecto, requiere login
+    ),
+}
 
 
 # Password validation
@@ -131,3 +138,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS = True
